@@ -1,26 +1,14 @@
 
 puts 'Введите 1 сторону'
-a = gets.chomp.to_f
+a = gets.to_f
 puts 'Введите 2 сторону'
-b = gets.chomp.to_f
+b = gets.to_f
 puts 'Введите 3 сторону'
-c = gets.chomp.to_f
+c = gets.to_f
 
-isosceles = a == b || a == c || b == c
+arr = [a, b, c].sort
 
-if c > a && c > b
-	if c ** 2 == a ** 2 + b ** 2
-		puts 'треугольник прямоугольный'
-		puts 'треугольник равнобедренный' if isosceles
-	end
-elsif a > c && a > b
-	if a ** 2 == c ** 2 + b ** 2
-		puts 'треугольник прямоугольный'
-		puts 'треугольник равнобедренный' if isosceles
-	end
-else
-	if b ** 2 == c ** 2 + a ** 2
-		puts 'треугольник прямоугольный'
-		puts 'треугольник равнобедренный' if isosceles
-	end
+if arr[2]**2 == arr[1]**2 + arr[0]**2
+  puts 'треугольник прямоугольный'
+  puts 'треугольник равнобедренный' if a == b || a == c || b == c
 end

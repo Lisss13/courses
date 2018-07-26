@@ -1,6 +1,6 @@
 puts 'Задайте основание треугольника'
-a = gets.chomp
+base = gets.to_f
 puts 'Задайте высоту треугольника'
-h = gets.chomp
-s = (a.to_f * h.to_f) / 2
-puts "S = #{s}"
+height = gets.to_f
+area = (base * height) / 2
+puts "S = #{area}"

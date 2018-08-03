@@ -1,0 +1,84 @@
+require_relative 'main'
+require 'test/unit'
+
+class Main < Test::Unit::TestCase
+
+  def setup
+    @train = Train.new(1, 'грузовой', 5)
+    @train_two = Train.new(2, 'пассажирский', 40)
+    @train_third = Train.new(3, 'пассажирский', 20)
+    @station_start = Station.new('Санкт-Петербург')
+    @station_one = Station.new('Чудово')
+    @station_two = Station.new('Тверь')
+    @station_end = Station.new('Москва')
+    @route = Route.new(@station_start, @station_end)
+  end
+
+  def test_train
+    assert_equal(5, @train.number_wagons)
+    @train.add_number_wagons
+    assert_equal(6, @train.number_wagons)
+    @train.remove_number_wagons
+    @train.remove_number_wagons
+    assert_equal(4, @train.number_wagons)
+
+    @train.gain_speed
+    @train.add_number_wagons
+    assert_equal(4, @train.number_wagons)
+    @train.remove_number_wagons
+    assert_equal(4, @train.number_wagons)
+
+    @train.gain_speed
+    assert_equal(20, @train.speed)
+    @train.reduce_speed
+    assert_equal(10, @train.speed)
+    @train.reduce_speed
+    @train.reduce_speed
+    @train.reduce_speed
+    assert_equal(0, @train.speed)
+    @train.gain_speed
+    @train.gain_speed
+    @train.stop
+    assert_equal(0, @train.speed)
+
+    @train.itinerary(@route)
+    assert_equal([@train], @station_start.trains)
+    @train_two.itinerary(@route)
+    assert_equal([@train, @train_two], @station_start.trains)
+
+    @train.itinerary(@route)
+    assert_equal(@station_start, @train.current_station)
+    @train.go_to_next_station
+    assert_equal(@station_end, @train.current_station)
+  end
+
+  def test_route
+    @train.itinerary(@route)
+    assert_equal(@route.stations.first, @train.route.stations.first)
+    assert_equal(@route.stations.last, @train.route.stations.last)
+    assert_equal([@station_start, @station_end], @route.stations)
+    @route.add_intermediate_station(@station_one)
+    @route.add_intermediate_station(@station_two)
+    assert_equal([@station_start, @station_one, @station_two,  @station_end], @route.stations)
+
+    assert_equal(@train.route.stations, @route.stations)
+
+    @route.remove_station(@station_one)
+    assert_equal([@station_start, @station_two,  @station_end], @route.stations)
+  end
+
+  def test_station
+    assert_equal('Санкт-Петербург', @station_start.name)
+    @station_start.accept_train @train
+    assert_equal([@train], @station_start.trains)
+    @station_start.accept_train @train_two
+    @station_start.accept_train @train_third
+    assert_equal([@train, @train_two, @train_third], @station_start.trains)
+    assert_equal([@train], @station_start.trains_with_type('грузовой'))
+    assert_equal([@train_two, @train_third], @station_start.trains_with_type('пассажирский'))
+
+    @train_two.itinerary(@route)
+    @station_start.send_train(@train_two)
+    assert_equal([@train, @train_third], @station_start.trains)
+  end
+end

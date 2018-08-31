@@ -4,30 +4,28 @@ require 'test/unit'
 class Main < Test::Unit::TestCase
 
   def setup
-    @train = Train.new(1, 'грузовой', 5)
-    @train_two = Train.new(2, 'пассажирский', 40)
-    @train_third = Train.new(3, 'пассажирский', 20)
+    @train = PassengerTrain.new(1)
+    @train_two = CargoTrain.new(2)
+    @train_third = CargoTrain.new(3)
+
     @station_start = Station.new('Санкт-Петербург')
     @station_one = Station.new('Чудово')
     @station_two = Station.new('Тверь')
     @station_end = Station.new('Москва')
+
     @route = Route.new(@station_start, @station_end)
+
+    @first_passenger_train_car = PassengerTrainCar.new
+    @second_passenger_train_car = PassengerTrainCar.new
+    @third_passenger_train_car = PassengerTrainCar.new
+
+    @first_cargo_train_car = CargoTrainCar.new
+    @second_cargo_train_car = CargoTrainCar.new
+    @third_cargo_train_car = CargoTrainCar.new
   end
 
   def test_train
-    assert_equal(5, @train.number_wagons)
-    @train.add_number_wagons
-    assert_equal(6, @train.number_wagons)
-    @train.remove_number_wagons
-    @train.remove_number_wagons
-    assert_equal(4, @train.number_wagons)
-
     @train.gain_speed
-    @train.add_number_wagons
-    assert_equal(4, @train.number_wagons)
-    @train.remove_number_wagons
-    assert_equal(4, @train.number_wagons)
-
     @train.gain_speed
     assert_equal(20, @train.speed)
     @train.reduce_speed
@@ -50,6 +48,46 @@ class Main < Test::Unit::TestCase
     assert_equal(@station_start, @train.current_station)
     @train.go_to_next_station
     assert_equal(@station_end, @train.current_station)
+  end
+
+  def test_passenger_train_car
+    @train.add_train_car(@first_passenger_train_car)
+    @train.add_train_car(@second_passenger_train_car)
+    @train.add_train_car(@third_passenger_train_car)
+    assert_equal(3, @train.train_cars.size)
+    assert_equal([@first_passenger_train_car, @second_passenger_train_car, @third_passenger_train_car], @train.train_cars)
+
+    @train.remove_train_car(@second_passenger_train_car)
+    assert_equal(2, @train.train_cars.size)
+    assert_equal([@first_passenger_train_car, @third_passenger_train_car], @train.train_cars)
+
+    @train.remove_train_car(@second_passenger_train_car)
+    assert_equal(2, @train.train_cars.size)
+    assert_equal([@first_passenger_train_car, @third_passenger_train_car], @train.train_cars)
+
+    @train.add_train_car(@first_cargo_train_car)
+    assert_equal(2, @train.train_cars.size)
+    assert_equal([@first_passenger_train_car, @third_passenger_train_car], @train.train_cars)
+  end
+
+  def test_cargo_train_car
+    @train_two.add_train_car(@first_cargo_train_car)
+    @train_two.add_train_car(@second_cargo_train_car)
+    @train_two.add_train_car(@third_cargo_train_car)
+    assert_equal(3, @train_two.train_cars.size)
+    assert_equal([@first_cargo_train_car, @second_cargo_train_car, @third_cargo_train_car], @train_two.train_cars)
+
+    @train_two.remove_train_car(@second_cargo_train_car)
+    assert_equal(2, @train_two.train_cars.size)
+    assert_equal([@first_cargo_train_car, @third_cargo_train_car], @train_two.train_cars)
+
+    @train_two.remove_train_car(@second_passenger_train_car)
+    assert_equal(2, @train_two.train_cars.size)
+    assert_equal([@first_cargo_train_car, @third_cargo_train_car], @train_two.train_cars)
+
+    @train_two.add_train_car(@first_passenger_train_car)
+    assert_equal(2, @train_two.train_cars.size)
+    assert_equal([@first_cargo_train_car, @third_cargo_train_car], @train_two.train_cars)
   end
 
   def test_route

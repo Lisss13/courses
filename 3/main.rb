@@ -1,12 +1,31 @@
-require_relative 'passenger_train'
-require_relative 'cargo_train'
-require_relative 'cargo_train_car'
-require_relative 'passenger_train_car'
-require_relative 'route'
-require_relative 'station'
+require_relative 'console_interface/station_menu'
+require_relative 'console_interface/route_menu'
+require_relative 'console_interface/train_menu'
 
+puts 'Управление железнодорожным движением!'
 
-@train = PassengerTrain.new(1)
-@first_passenger_train_car = PassengerTrainCar.new
-@train.add_train_car(@first_passenger_train_car)
-@train.add_train_car(@first_passenger_train_car)
+def main
+  puts '1. Меню станций'
+  puts '2. Меню маршрутов'
+  puts '3. Меню поездов'
+  puts '-----------'
+  puts '0. Выход из программы'
+
+  select = gets.chomp.to_i
+  case select
+    when 1
+      StationMenu.new
+    when 2
+      RouteMenu.new
+    when 3
+      TrainMenu.new
+    when 0
+      abort('Выход!')
+    else
+      puts 'Ошибка ввода, выберите доступный вариант'
+      puts '-----------'
+      main
+  end
+end
+
+main

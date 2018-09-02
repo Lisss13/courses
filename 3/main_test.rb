@@ -1,4 +1,8 @@
-require_relative 'main'
+require_relative 'route/route'
+require_relative 'station/station'
+require_relative 'train_car/train_car'
+require_relative 'train/cargo_train'
+require_relative 'train/passenger_train'
 require 'test/unit'
 
 class Main < Test::Unit::TestCase
@@ -15,13 +19,13 @@ class Main < Test::Unit::TestCase
 
     @route = Route.new(@station_start, @station_end)
 
-    @first_passenger_train_car = PassengerTrainCar.new
-    @second_passenger_train_car = PassengerTrainCar.new
-    @third_passenger_train_car = PassengerTrainCar.new
+    @first_passenger_train_car = TrainCar.new('пассажирский')
+    @second_passenger_train_car = TrainCar.new('пассажирский')
+    @third_passenger_train_car = TrainCar.new('пассажирский')
 
-    @first_cargo_train_car = CargoTrainCar.new
-    @second_cargo_train_car = CargoTrainCar.new
-    @third_cargo_train_car = CargoTrainCar.new
+    @first_cargo_train_car = TrainCar.new('грузовой')
+    @second_cargo_train_car = TrainCar.new('грузовой')
+    @third_cargo_train_car = TrainCar.new('грузовой')
   end
 
   def test_train
@@ -112,8 +116,8 @@ class Main < Test::Unit::TestCase
     @station_start.accept_train @train_two
     @station_start.accept_train @train_third
     assert_equal([@train, @train_two, @train_third], @station_start.trains)
-    assert_equal([@train], @station_start.trains_with_type('грузовой'))
-    assert_equal([@train_two, @train_third], @station_start.trains_with_type('пассажирский'))
+    assert_equal([@train], @station_start.trains_with_type('пассажирский'))
+    assert_equal([@train_two, @train_third], @station_start.trains_with_type('грузовой'))
 
     @train_two.itinerary(@route)
     @station_start.send_train(@train_two)

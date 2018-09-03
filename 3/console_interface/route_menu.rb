@@ -8,7 +8,14 @@ class RouteMenu
     end
   end
 
-  def initialize
+  def initialize(main)
+    @main = main
+    menu
+  end
+
+  ##
+  # menu for Router
+  def menu
     puts '-----------'
     puts '1. Создать маршрут'
     puts '2. Добавить станцию'
@@ -32,10 +39,10 @@ class RouteMenu
       show_routes
     when 0
       puts '-----------'
-      main
+      @main.start
     else
       puts 'Ошибка ввода, выберите доступный вариант'
-      initialize
+      menu
     end
   end
 
@@ -47,7 +54,7 @@ class RouteMenu
     end_station = gets.chomp.to_s
     @@routes << Route.new(start_station, end_station)
     puts 'Маршрут создан!'
-    initialize
+    menu
   end
 
   def add_station
@@ -58,7 +65,7 @@ class RouteMenu
     new_station = gets.chomp.to_s
     @@routes[select - 1].add_intermediate_station(new_station)
     puts 'Станция добавлена!'
-    initialize
+    menu
   end
 
   def delete_station
@@ -69,7 +76,7 @@ class RouteMenu
     delete_station = gets.chomp.to_s
     @@routes[select - 1].remove_station(delete_station)
     puts 'Станция удалена!'
-    initialize
+    menu
   end
 
   def show_routes
@@ -78,6 +85,6 @@ class RouteMenu
     puts '-----------'
     select = gets.chomp.to_i
     @@routes[select - 1].print_station
-    initialize
+    menu
   end
 end

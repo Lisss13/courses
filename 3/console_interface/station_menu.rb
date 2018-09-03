@@ -2,7 +2,14 @@ require_relative '../station/station'
 
 class StationMenu
   @@stations = []
-  def initialize
+  def initialize(main)
+    @main = main
+    menu
+  end
+
+  ##
+  # menu for Router
+  def menu
     puts '-----------'
     puts '1. Создать станцию'
     puts '2. Показать список станций'
@@ -18,10 +25,10 @@ class StationMenu
       show_stations
     when 0
       puts '-----------'
-      main
+      @main.start
     else
       puts 'Ошибка ввода, выберите доступный вариант'
-      initialize
+      start
     end
   end
 
@@ -30,12 +37,12 @@ class StationMenu
     station_name = gets.chomp.to_s
     @@stations << Station.new(station_name)
     puts "Станция #{station_name} создана"
-    initialize
+    menu
   end
 
   def show_stations
     puts 'Список станций:'
     @@stations.each { |station| p station.name }
-    initialize
+    menu
   end
 end

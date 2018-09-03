@@ -18,7 +18,14 @@ class TrainMenu
     end
   end
 
-  def initialize
+  def initialize(main)
+    @main = main
+    menu
+  end
+
+  ##
+  # menu for Router
+  def menu
     puts '-----------'
     puts '1. Создать вагон'
     puts '2. Создать поезд'
@@ -54,10 +61,10 @@ class TrainMenu
         backward_train
       when 0
         puts '-----------'
-        main
+        @main.start
       else
         puts 'Ошибка ввода, выберите доступный вариант'
-        initialize
+        menu
     end
   end
 
@@ -66,7 +73,7 @@ class TrainMenu
     train_car_type = gets.chomp.to_s
     @@train_cars << TrainCar.new(train_car_type)
     puts 'Вагон создан!'
-    initialize
+    menu
   end
 
   def create_train
@@ -88,7 +95,7 @@ class TrainMenu
       create_train
     end
     puts 'Поезд создан!'
-    initialize
+    menu
   end
 
   def add_train_route
@@ -102,7 +109,7 @@ class TrainMenu
     selected_route = RouteMenu.routes[route - 1]
     selected_train.itinerary(selected_route)
     puts 'Маршрут добавлен!'
-    initialize
+    menu
   end
 
   def attach_train_car
@@ -116,7 +123,7 @@ class TrainMenu
     selected_train_car = @@train_cars[train_car - 1]
     selected_train.add_train_car(selected_train_car)
     puts 'Вагон добавлен!'
-    initialize
+    menu
   end
 
   def remove_train_car
@@ -127,7 +134,7 @@ class TrainMenu
     train_car = gets.chomp.to_i
     @@trains[train - 1].remove_train_car(@@train_cars[train_car - 1])
     puts 'Вагон удален!'
-    initialize
+    menu
   end
 
   def forward_train
@@ -137,7 +144,7 @@ class TrainMenu
     selected_train = @@trains[train - 1]
     selected_train.go_to_next_station
     puts "Станция: #{selected_train.current_station}"
-    initialize
+    menu
   end
 
   def backward_train
@@ -147,6 +154,6 @@ class TrainMenu
     selected_train = @@trains[train - 1]
     selected_train.go_to_previous_station
     puts "Станция: #{selected_train.current_station}"
-    initialize
+    menu
   end
 end

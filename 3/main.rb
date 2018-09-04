@@ -3,6 +3,15 @@ require_relative 'console_interface/route_menu'
 require_relative 'console_interface/train_menu'
 
 class Main
+  def initialize
+    @store = {
+      routes: [],
+      stations: [],
+      train_cars: [],
+      trains: [],
+    }
+  end
+
   def start
     puts 'Управление железнодорожным движением!'
     puts '1. Меню станций'
@@ -18,11 +27,14 @@ class Main
       select = gets.chomp.to_i
       case select
       when 1
-        StationMenu.new(self)
+        state_menu = StationMenu.new(self, @store)
+        state_menu.menu
       when 2
-        RouteMenu.new(self)
+        route_menu = RouteMenu.new(self, @store)
+        route_menu.menu
       when 3
-        TrainMenu.new(self)
+        train_menu = TrainMenu.new(self, @store)
+        train_menu.menu
       when 0
         abort('Выход!')
       else

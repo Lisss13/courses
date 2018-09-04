@@ -1,10 +1,11 @@
 require_relative '../station/station'
+require_relative 'data_list'
 
 class StationMenu
-  @@stations = []
-  def initialize(main)
+  include DataList
+  def initialize(main, store)
     @main = main
-    menu
+    @store = store
   end
 
   ##
@@ -32,17 +33,12 @@ class StationMenu
     end
   end
 
-  def create_station
-    puts 'Введите название станции:'
-    station_name = gets.chomp.to_s
-    @@stations << Station.new(station_name)
-    puts "Станция #{station_name} создана"
-    menu
-  end
-
-  def show_stations
-    puts 'Список станций:'
-    @@stations.each { |station| p station.name }
-    menu
-  end
+  private
+    def create_station
+      puts 'Введите название станции:'
+      station_name = gets.chomp.to_s
+      @store[:stations] << Station.new(station_name)
+      puts "Станция #{station_name} создана"
+      menu
+    end
 end

@@ -1,16 +1,11 @@
 require_relative '../route/route'
+require_relative 'data_list'
 
 class RouteMenu
-  @@routes = []
-  def self.select_route
-    @@routes.each_with_index do |route, index|
-      puts "#{index + 1}. Маршрут: #{route.stations.first} - #{route.stations.last}"
-    end
-  end
-
-  def initialize(main)
+  include DataList
+  def initialize(main, store)
     @main = main
-    menu
+    @store = store
   end
 
   ##
@@ -46,45 +41,46 @@ class RouteMenu
     end
   end
 
-  def create_route
-    puts 'Создание маршрута:'
-    puts 'Введите начальную станцию маршрута:'
-    start_station = gets.chomp.to_s
-    puts 'Введите конечную станцию маршрута'
-    end_station = gets.chomp.to_s
-    @@routes << Route.new(start_station, end_station)
-    puts 'Маршрут создан!'
-    menu
-  end
+  private
+    def create_route
+      puts 'Создание маршрута:'
+      puts 'Введите начальную станцию маршрута:'
+      start_station = gets.chomp.to_s
+      puts 'Введите конечную станцию маршрута'
+      end_station = gets.chomp.to_s
+      @store[:routes] << Route.new(start_station, end_station)
+      puts 'Маршрут создан!'
+      menu
+    end
 
-  def add_station
-    puts 'Выберите маршрут для добавления станции:'
-    RouteMenu.select_route
-    select = gets.chomp.to_i
-    puts 'Укажите название станции:'
-    new_station = gets.chomp.to_s
-    @@routes[select - 1].add_intermediate_station(new_station)
-    puts 'Станция добавлена!'
-    menu
-  end
+    def add_station
+      puts 'Выберите маршрут для добавления станции:'
+      select_route
+      select = gets.chomp.to_i
+      puts 'Укажите название станции:'
+      new_station = gets.chomp.to_s
+      @store[:routes][select - 1].add_intermediate_station(new_station)
+      puts 'Станция добавлена!'
+      menu
+    end
 
-  def delete_station
-    puts 'Выберите маршрут для удаления станции:'
-    RouteMenu.select_route
-    select = gets.chomp.to_i
-    puts 'Укажите название станции:'
-    delete_station = gets.chomp.to_s
-    @@routes[select - 1].remove_station(delete_station)
-    puts 'Станция удалена!'
-    menu
-  end
+    def delete_station
+      puts 'Выберите маршрут для удаления станции:'
+      select_route
+      select = gets.chomp.to_i
+      puts 'Укажите название станции:'
+      delete_station = gets.chomp.to_s
+      @store[:routes][select - 1].remove_station(delete_station)
+      puts 'Станция удалена!'
+      menu
+    end
 
-  def show_routes
-    puts 'Выберите маршрут для показа списка станции:'
-    RouteMenu.select_route
-    puts '-----------'
-    select = gets.chomp.to_i
-    @@routes[select - 1].print_station
-    menu
-  end
+    def show_routes
+      puts 'Выберите маршрут для показа списка станции:'
+      select_route
+      puts '-----------'
+      select = gets.chomp.to_i
+      @store[:routes][select - 1].print_station
+      menu
+    end
 end

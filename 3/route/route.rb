@@ -23,9 +23,15 @@ class Route
     end
   end
 
+  def remove_station_by_name(station_name)
+    if station_name != @stations.first.name && station_name != @stations.last.name
+      @stations.delete_if { |stations| stations.name == station_name }
+    end
+  end
+
   ##
   # Print all station
   def print_station
-    @stations.each { |station| p station }
+    @stations.each { |station| p station.name }
   end
 end

@@ -48,7 +48,7 @@ class RouteMenu
       start_station = gets.chomp.to_s
       puts 'Введите конечную станцию маршрута'
       end_station = gets.chomp.to_s
-      @store[:routes] << Route.new(start_station, end_station)
+      @store[:routes] << Route.new(Station.new(start_station), Station.new(end_station))
       puts 'Маршрут создан!'
       menu
     end
@@ -59,7 +59,7 @@ class RouteMenu
       select = gets.chomp.to_i
       puts 'Укажите название станции:'
       new_station = gets.chomp.to_s
-      @store[:routes][select - 1].add_intermediate_station(new_station)
+      @store[:routes][select - 1].add_intermediate_station(Station.new(new_station))
       puts 'Станция добавлена!'
       menu
     end
@@ -68,9 +68,11 @@ class RouteMenu
       puts 'Выберите маршрут для удаления станции:'
       select_route
       select = gets.chomp.to_i
-      puts 'Укажите название станции:'
-      delete_station = gets.chomp.to_s
-      @store[:routes][select - 1].remove_station(delete_station)
+      current_route = @store[:routes][select - 1]
+      puts 'Выбирите название станции'
+      current_route.print_station
+      delete_station_name = gets.chomp.to_s
+      current_route.remove_station_by_name(delete_station_name)
       puts 'Станция удалена!'
       menu
     end

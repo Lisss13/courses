@@ -10,6 +10,9 @@ class Main
       train_cars: [],
       trains: [],
     }
+    @state_menu = StationMenu.new(self, @store)
+    @route_menu = RouteMenu.new(self, @store)
+    @train_menu = TrainMenu.new(self, @store)
   end
 
   def start
@@ -27,14 +30,11 @@ class Main
       select = gets.chomp.to_i
       case select
       when 1
-        state_menu = StationMenu.new(self, @store)
-        state_menu.menu
+        @state_menu.menu
       when 2
-        route_menu = RouteMenu.new(self, @store)
-        route_menu.menu
+        @route_menu.menu
       when 3
-        train_menu = TrainMenu.new(self, @store)
-        train_menu.menu
+        @train_menu.menu
       when 0
         abort('Выход!')
       else

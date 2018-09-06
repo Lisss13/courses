@@ -107,6 +107,9 @@ class Main < Test::Unit::TestCase
 
     @route.remove_station(@station_one)
     assert_equal([@station_start, @station_two,  @station_end], @route.stations)
+
+    @route.remove_station_by_name('Тверь')
+    assert_equal([@station_start,  @station_end], @route.stations)
   end
 
   def test_station

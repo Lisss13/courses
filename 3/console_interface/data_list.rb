@@ -13,7 +13,7 @@ module DataList
 
   def select_route
     @store[:routes].each_with_index do |route, index|
-      puts "#{index + 1}. Маршрут: #{route.stations.first} - #{route.stations.last}"
+      puts "#{index + 1}. Маршрут: #{route.stations.first.name} - #{route.stations.last.name}"
     end
   end
 

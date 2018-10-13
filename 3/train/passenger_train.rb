@@ -2,9 +2,9 @@ require_relative 'train'
 
 class PassengerTrain < Train
   ##
-  # @param [Number] id number or id of train
-  def initialize(id)
-    super(id, 'пассажирский')
+  # @param [Number] number number or id of train
+  def initialize(number)
+    super(number, 'пассажирский')
   end
 
   ##

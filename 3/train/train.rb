@@ -1,15 +1,27 @@
+require_relative '../modules/manufacturer'
+require_relative '../modules/instance_counter'
+
 # Base class for Trains
 class Train
-  attr_reader :route, :type, :current_station, :speed, :train_cars, :id
+  attr_reader :route, :type, :current_station, :speed, :train_cars, :number
+  include CompanyManufacturer
+  include InstanceCounter
 
+  @@all_trains = []
+  def self.find(number)
+    @@all_trains.find { |train| train.number == number }
+  end
   ##
-  # @param [Number] id number or id of train
+  # @param [Number] number number or id of train
   # @param [String] type type of train
-  def initialize(id, type)
-    @id = id
+  def initialize(number, type)
+    @number = number
     @type = type
     @speed = 0
     @train_cars = []
+    Train.register_instance
+    # TODO: тут та же история что и в TODO d Station
+    @@all_trains.push(self)
   end
 
   ##

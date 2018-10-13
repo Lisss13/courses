@@ -52,6 +52,9 @@ class Main < Test::Unit::TestCase
     assert_equal(@station_start, @train.current_station)
     @train.go_to_next_station
     assert_equal(@station_end, @train.current_station)
+
+    @train.set_company_manufacturer('Коков')
+    assert_equal('Коков', @train.company_manufacturer)
   end
 
   def test_passenger_train_car
@@ -92,6 +95,9 @@ class Main < Test::Unit::TestCase
     @train_two.add_train_car(@first_passenger_train_car)
     assert_equal(2, @train_two.train_cars.size)
     assert_equal([@first_cargo_train_car, @third_cargo_train_car], @train_two.train_cars)
+
+    @train_two.set_company_manufacturer('Кряга')
+    assert_equal('Кряга', @train_two.company_manufacturer)
   end
 
   def test_route
@@ -125,5 +131,15 @@ class Main < Test::Unit::TestCase
     @train_two.itinerary(@route)
     @station_start.send_train(@train_two)
     assert_equal([@train, @train_third], @station_start.trains)
+  end
+
+  def static_method
+    # assert_equal(@train_two, Train.find(2))
+    # assert_equal(@train_third, Train.find(3))
+    # Тест который непонятно почему ломается
+    # assert_equal([@station_start, @station_one, @station_two, @station_end], Station.all())
+    assert_equal 3, Train.instances
+    assert_equal 4, Station.instances
+    assert_equal 1, Route.instances
   end
 end

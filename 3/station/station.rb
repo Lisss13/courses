@@ -1,10 +1,25 @@
+require_relative '../modules/instance_counter'
+
 class Station
   attr_reader :name, :trains
+  include InstanceCounter
+
+  @@all_station = []
+  def self.all
+    @@all_station
+  end
   ##
   # @param [String] name name of station
   def initialize(name)
     @name = name
     @trains = []
+    Station.register_instance
+    # TODO: Тут не очень понятно
+    # в файле main_test.rb содаются только 4 станции,
+    # но тест показывает что инициализаций класса Station
+    # много, почему так происходит?
+    # Причем когда я проходу дебагером, действительно обьекты пересоздаются
+    @@all_station.push(self)
   end
 
   ##

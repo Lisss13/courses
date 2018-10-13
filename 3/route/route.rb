@@ -1,10 +1,14 @@
+require_relative '..//modules/instance_counter'
+
 class Route
   attr_reader :stations
+  include InstanceCounter
   ##
   # @param [Station] starting_point start station
   # @param [Station] final_point finish station
   def initialize(starting_point, final_point)
     @stations = [starting_point, final_point]
+    Route.register_instance
   end
 
   ##

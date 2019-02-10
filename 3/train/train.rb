@@ -20,7 +20,7 @@ class Train
     @speed = 0
     @train_cars = []
     Train.register_instance
-    # TODO: тут та же история что и в TODO d Station
+    # TODO: тут та же история что и в TODO Station
     @@all_trains.push(self)
   end
 

@@ -8,7 +8,7 @@ class Route
   # @param [Station] final_point finish station
   def initialize(starting_point, final_point)
     @stations = [starting_point, final_point]
-    Route.register_instance
+    register_instance
   end
 
   ##

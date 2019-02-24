@@ -14,12 +14,7 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
-    Station.register_instance
-    # TODO: Тут не очень понятно
-    # в файле main_test.rb содаются только 4 станции,
-    # но тест показывает что инициализаций класса Station
-    # много, почему так происходит?
-    # Причем когда я проходу дебагером, действительно обьекты пересоздаются
+    register_instance
     @@all_station.push(self)
   end
 

@@ -35,10 +35,15 @@ class StationMenu
 
   private
     def create_station
-      puts 'Введите название станции:'
-      station_name = gets.chomp.to_s
-      @store[:stations] << Station.new(station_name)
-      puts "Станция #{station_name} создана"
-      menu
+      begin
+        puts 'Введите название станции:'
+        station_name = gets.chomp.to_s
+        @store[:stations] << Station.new(station_name)
+        puts "Станция #{station_name} создана"
+        menu
+      rescue RuntimeError => e
+        puts e.message
+        retry
+      end
     end
 end

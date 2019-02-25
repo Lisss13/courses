@@ -8,9 +8,9 @@ require 'test/unit'
 class Main < Test::Unit::TestCase
 
   def setup
-    @train = PassengerTrain.new(1)
-    @train_two = CargoTrain.new(2)
-    @train_third = CargoTrain.new(3)
+    @train = PassengerTrain.new('fff-22')
+    @train_two = CargoTrain.new('222-34')
+    @train_third = CargoTrain.new('3d3-ee')
 
     @station_start = Station.new('Санкт-Петербург')
     @station_one = Station.new('Чудово')
@@ -134,12 +134,23 @@ class Main < Test::Unit::TestCase
   end
 
   def static_method
-    # assert_equal(@train_two, Train.find(2))
-    # assert_equal(@train_third, Train.find(3))
-    # Тест который непонятно почему ломается
-    # assert_equal([@station_start, @station_one, @station_two, @station_end], Station.all())
     assert_equal 3, Train.instances
     assert_equal 4, Station.instances
     assert_equal 1, Route.instances
+  end
+
+  def test_error
+    exception = assert_raise(RuntimeError) {  PassengerTrain.new('ID поезда не может быть пустым') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  PassengerTrain.new('fff-4') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  CargoTrain.new('ID поезда не может быть пустым') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  CargoTrain.new('fff-4') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  Train.new('ID поезда не может быть пустым', 'sdf') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  Train.new('fff-4', 'sdf') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
   end
 end

@@ -13,6 +13,7 @@ class Station
   # @param [String] name name of station
   def initialize(name)
     @name = name
+    validate!
     @trains = []
     register_instance
     @@all_station.push(self)
@@ -40,4 +41,19 @@ class Station
   def send_train(current_train)
     @trains.delete(current_train)
   end
+
+  ##
+  # Validation of parameters
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
+  protected
+    def validate!
+      raise "Название станции не может быть пустой" if name.nil?
+      raise "Название станции должно содержать не менее 3 букв" if name.length < 3
+      true
+    end
 end

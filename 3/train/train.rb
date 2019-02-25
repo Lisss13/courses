@@ -7,6 +7,8 @@ class Train
   include CompanyManufacturer
   include InstanceCounter
 
+  NUMBER_FORMAT = /^([a-z]|\d){3}[-]*([a-z]|\d){2}$/i
+
   @@all_trains = []
   def self.find(number)
     @@all_trains.find { |train| train.number == number }
@@ -17,6 +19,7 @@ class Train
   def initialize(number, type)
     @number = number
     @type = type
+    validate!
     @speed = 0
     @train_cars = []
     register_instance
@@ -80,6 +83,22 @@ class Train
     @current_station = previous_station
     @current_station.accept_train self
   end
+
+  ##
+  # Validation of parameters
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
+  protected
+    def validate!
+      raise "ID поезда не может быть пустым" if number.nil?
+      raise "Неправильный формат идентификатора поезда" if number !~ NUMBER_FORMAT
+      raise "Тип поезда не может быть нулевым" if type.nil?
+      true
+    end
 
   # auxiliary methods for go_to_next_station and go_to_previous_station
   private

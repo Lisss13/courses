@@ -8,5 +8,18 @@ class TrainCar
   # @param [String] type type of train car
   def initialize(type)
     @type = type
+    validate!
   end
+
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
+  protected
+    def validate!
+      raise "Вагон не может быть нулевым" if type.nil?
+      true
+    end
 end

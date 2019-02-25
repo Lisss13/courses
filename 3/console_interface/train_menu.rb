@@ -59,11 +59,16 @@ class TrainMenu
   private
 
     def create_train_car
-      puts 'Укажите тип вагона (грузовой или пассажирский)'
-      train_car_type = gets.chomp.to_s
-      @store[:train_cars] << TrainCar.new(train_car_type)
-      puts 'Вагон создан!'
-      menu
+      begin
+        puts 'Укажите тип вагона (грузовой или пассажирский)'
+        train_car_type = gets.chomp.to_s
+        @store[:train_cars] << TrainCar.new(train_car_type)
+        puts 'Вагон создан!'
+        menu
+      rescue RuntimeError => e
+        puts e.message
+        retry
+      end
     end
 
     def create_train

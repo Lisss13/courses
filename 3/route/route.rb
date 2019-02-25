@@ -1,8 +1,10 @@
-require_relative '..//modules/instance_counter'
+require_relative '../modules/instance_counter'
 
 class Route
   attr_reader :stations
   include InstanceCounter
+  INVALID_STATION = "Маршрут должен состоять из объектов станции"
+
   ##
   # @param [Station] starting_point start station
   # @param [Station] final_point finish station
@@ -47,6 +49,6 @@ class Route
 
   protected
     def validate!
-      raise "Маршрут должен состоять из объектов станции" unless stations.first.is_a?(Station) && stations.last.is_a?(Station)
+      raise INVALID_STATION unless stations.first.is_a?(Station) && stations.last.is_a?(Station)
     end
 end

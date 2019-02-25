@@ -7,7 +7,7 @@ class Train
   include CompanyManufacturer
   include InstanceCounter
 
-  NUMBER_FORMAT = /^([a-z]|\d){3}[-]*([a-z]|\d){2}$/i
+  NUMBER_FORMAT = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i
 
   @@all_trains = []
   def self.find(number)

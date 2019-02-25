@@ -152,5 +152,8 @@ class Main < Test::Unit::TestCase
     assert_equal("Неправильный формат идентификатора поезда", exception.message)
     exception = assert_raise(RuntimeError) {  Train.new('fff-4', 'sdf') }
     assert_equal("Неправильный формат идентификатора поезда", exception.message)
+    exception = assert_raise(RuntimeError) {  Train.new('fff---43', 'sdf') }
+    assert_equal("Неправильный формат идентификатора поезда", exception.message)
+
   end
 end

@@ -4,6 +4,9 @@ class Station
   attr_reader :name, :trains
   include InstanceCounter
 
+  NAME_EMPTY = "Название станции не может быть пустой"
+  NAME_LENGTH = "Название станции должно содержать не менее 3 букв"
+
   @@all_station = []
 
   def self.all
@@ -52,8 +55,8 @@ class Station
 
   protected
     def validate!
-      raise "Название станции не может быть пустой" if name.nil?
-      raise "Название станции должно содержать не менее 3 букв" if name.length < 3
+      raise NAME_EMPTY if name.nil?
+      raise NAME_LENGTH if name.length < 3
       true
     end
 end

@@ -8,6 +8,10 @@ class Train
   include InstanceCounter
 
   NUMBER_FORMAT = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i
+  ID_EMPTY = "ID поезда не может быть пустым"
+  TYPE_EMPTY = "Тип поезда не может быть нулевым"
+  WRONG_FORMAT =  "Неправильный формат идентификатора поезда"
+
 
   @@all_trains = []
   def self.find(number)
@@ -94,9 +98,9 @@ class Train
 
   protected
     def validate!
-      raise "ID поезда не может быть пустым" if number.nil?
-      raise "Неправильный формат идентификатора поезда" if number !~ NUMBER_FORMAT
-      raise "Тип поезда не может быть нулевым" if type.nil?
+      raise ID_EMPTY if number.nil?
+      raise WRONG_FORMAT if number !~ NUMBER_FORMAT
+      raise TYPE_EMPTY if type.nil?
       true
     end
 

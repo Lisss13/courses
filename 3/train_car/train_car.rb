@@ -4,6 +4,9 @@ require_relative '../modules/manufacturer'
 class TrainCar
   attr_reader :type
   include CompanyManufacturer
+
+  TRAIN_CAR_ERROR = "Вагон не может быть нулевым"
+
   ##
   # @param [String] type type of train car
   def initialize(type)
@@ -19,7 +22,7 @@ class TrainCar
 
   protected
     def validate!
-      raise "Вагон не может быть нулевым" if type.nil?
+      raise TRAIN_CAR_ERROR if type.nil?
       true
     end
 end

@@ -64,6 +64,9 @@ class TrainMenu
       @store[:train_cars] << TrainCar.new(train_car_type)
       puts 'Вагон создан!'
       menu
+    rescue RuntimeError => e
+      puts e.message
+      retry
     end
 
     def create_train
@@ -73,13 +76,23 @@ class TrainMenu
       select = gets.chomp.to_i
       case select
       when 1
-        puts 'Укажите номер поезда:'
-        number = gets.chomp.to_i
-        @store[:trains] << CargoTrain.new(number)
+        begin
+          puts 'Укажите номер поезда:'
+          number = gets.chomp.to_s
+          @store[:trains] << CargoTrain.new(number)
+        rescue RuntimeError => e
+          puts e.message
+          retry
+        end
       when 2
-        puts 'Укажите номер поезда:'
-        number = gets.chomp.to_i
-        @store[:trains] << PassengerTrain.new(number)
+        begin
+          puts 'Укажите номер поезда:'
+          number = gets.chomp.to_s
+          @store[:trains] << PassengerTrain.new(number)
+        rescue RuntimeError => e
+          puts e.message
+          retry
+        end
       else
         puts 'Ошибка ввода, выберите доступный вариант'
         create_train
@@ -91,7 +104,7 @@ class TrainMenu
     def add_train_route
       puts 'Выберите поезд для назначения ему маршрута:'
       select_train
-      train = gets.chomp.to_i
+      train = gets.chomp.to_s
       selected_train = @store[:trains][train - 1]
       puts 'Выберите маршрут для назначения его поезду:'
       route = gets.chomp.to_i
@@ -104,11 +117,11 @@ class TrainMenu
     def attach_train_car
       puts 'Выберите поезд для добавления вагона'
       select_train
-      train = gets.chomp.to_i
+      train = gets.chomp.to_s
       selected_train = @store[:trains][train - 1]
       puts 'Выберите тип вагона для Вашего поезда:'
       select_train_car
-      train_car = gets.chomp.to_i
+      train_car = gets.chomp.to_s
       selected_train_car = @store[:train_cars][train_car - 1]
       selected_train.add_train_car(selected_train_car)
       puts 'Вагон добавлен!'
@@ -118,9 +131,9 @@ class TrainMenu
     def remove_train_car
       puts 'Выберите поезд для удаления вагона'
       select_train
-      train = gets.chomp.to_i
+      train = gets.chomp.to_s
       select_train_car
-      train_car = gets.chomp.to_i
+      train_car = gets.chomp.to_s
       @store[:trains][train - 1].remove_train_car(@store[:train_cars][train_car - 1])
       puts 'Вагон удален!'
       menu

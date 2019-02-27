@@ -54,9 +54,10 @@ class Station
   end
 
   protected
-    def validate!
-      raise NAME_EMPTY if name.nil?
-      raise NAME_LENGTH if name.length < 3
-      true
-    end
+
+  def validate!
+    raise NAME_EMPTY if name.nil?
+    raise NAME_LENGTH if name.length < 3
+    true
+  end
 end

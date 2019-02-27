@@ -48,7 +48,8 @@ class Route
   end
 
   protected
-    def validate!
-      raise INVALID_STATION unless stations.first.is_a?(Station) && stations.last.is_a?(Station)
-    end
+
+  def validate!
+    raise INVALID_STATION unless stations.first.is_a?(Station) && stations.last.is_a?(Station)
+  end
 end

@@ -21,8 +21,9 @@ class TrainCar
   end
 
   protected
-    def validate!
-      raise TRAIN_CAR_ERROR if type.nil?
-      true
-    end
+
+  def validate!
+    raise TRAIN_CAR_ERROR if type.nil?
+    true
+  end
 end

@@ -97,31 +97,32 @@ class Train
   end
 
   protected
-    def validate!
-      raise ID_EMPTY if number.nil?
-      raise WRONG_FORMAT if number !~ NUMBER_FORMAT
-      raise TYPE_EMPTY if type.nil?
-      true
-    end
+
+  def validate!
+    raise ID_EMPTY if number.nil?
+    raise WRONG_FORMAT if number !~ NUMBER_FORMAT
+    raise TYPE_EMPTY if type.nil?
+    true
+  end
 
   # auxiliary methods for go_to_next_station and go_to_previous_station
   private
-    ##
-    # Get next station
-    def next_station
-      station_index = @route.stations.index(@current_station)
-      stations = @route.stations
-      unless station_index == stations.size
-        stations[station_index + 1]
-      end
+  ##
+  # Get next station
+  def next_station
+    station_index = @route.stations.index(@current_station)
+    stations = @route.stations
+    unless station_index == stations.size
+      stations[station_index + 1]
     end
+  end
 
-    ##
-    # Get previous station
-    def previous_station
-      station_index = @route.stations.index(@current_station)
-      unless station_index == 0
-        @current_station[station_index - 1]
-      end
+  ##
+  # Get previous station
+  def previous_station
+    station_index = @route.stations.index(@current_station)
+    unless station_index == 0
+      @current_station[station_index - 1]
     end
+  end
 end

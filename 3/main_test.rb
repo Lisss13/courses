@@ -19,13 +19,13 @@ class Main < Test::Unit::TestCase
 
     @route = Route.new(@station_start, @station_end)
 
-    @first_passenger_train_car = TrainCar.new('пассажирский')
-    @second_passenger_train_car = TrainCar.new('пассажирский')
-    @third_passenger_train_car = TrainCar.new('пассажирский')
+    @first_passenger_train_car = TrainCar.new('пассажирский', 100)
+    @second_passenger_train_car = TrainCar.new('пассажирский', 233)
+    @third_passenger_train_car = TrainCar.new('пассажирский', 43)
 
-    @first_cargo_train_car = TrainCar.new('грузовой')
-    @second_cargo_train_car = TrainCar.new('грузовой')
-    @third_cargo_train_car = TrainCar.new('грузовой')
+    @first_cargo_train_car = TrainCar.new('грузовой', 1000)
+    @second_cargo_train_car = TrainCar.new('грузовой', 1500)
+    @third_cargo_train_car = TrainCar.new('грузовой', 25000)
   end
 
   def test_train
@@ -75,6 +75,10 @@ class Main < Test::Unit::TestCase
     @train.add_train_car(@first_cargo_train_car)
     assert_equal(2, @train.train_cars.size)
     assert_equal([@first_passenger_train_car, @third_passenger_train_car], @train.train_cars)
+
+    array_of_train_car = []
+    @train.each_train_car { |train_car| array_of_train_car << train_car }
+    assert_equal([@first_passenger_train_car, @third_passenger_train_car], array_of_train_car)
   end
 
   def test_cargo_train_car
@@ -131,6 +135,10 @@ class Main < Test::Unit::TestCase
     @train_two.itinerary(@route)
     @station_start.send_train(@train_two)
     assert_equal([@train, @train_third], @station_start.trains)
+
+    trains = []
+    @station_start.each_train { |train| trains << train }
+    assert_equal([@train, @train_third], trains)
   end
 
   def static_method
@@ -154,6 +162,15 @@ class Main < Test::Unit::TestCase
     assert_equal("Неправильный формат идентификатора поезда", exception.message)
     exception = assert_raise(RuntimeError) {  Train.new('fff---43', 'sdf') }
     assert_equal("Неправильный формат идентификатора поезда", exception.message)
+  end
 
+  def test_train_car
+    @first_passenger_train_car.take_place
+    assert_equal(99, @first_passenger_train_car.free_place)
+    assert_equal(1, @first_passenger_train_car.busy_place)
+
+    @first_cargo_train_car.take_place(300)
+    assert_equal(700, @first_cargo_train_car.free_place)
+    assert_equal(300, @first_cargo_train_car.busy_place)
   end
 end

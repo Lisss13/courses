@@ -96,6 +96,13 @@ class Train
     false
   end
 
+  ##
+  # Train car iteration at the station
+  # @param [Proc]
+  def each_train_car
+    @train_cars.each { |train_car| yield train_car }
+  end
+
   protected
 
   def validate!

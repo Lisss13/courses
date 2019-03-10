@@ -46,6 +46,13 @@ class Station
   end
 
   ##
+  # Train iteration at the station
+  # @param [Proc]
+  def each_train
+    @trains.each { |train| yield train }
+  end
+
+  ##
   # Validation of parameters
   def valid?
     validate!

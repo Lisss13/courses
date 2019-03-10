@@ -1,8 +1,10 @@
 require_relative 'route/route'
 require_relative 'station/station'
-require_relative 'train_car/train_car'
 require_relative 'train/cargo_train'
 require_relative 'train/passenger_train'
+require_relative 'train_car/freight_train_car'
+require_relative 'train_car/passenger_train_car'
+
 require 'test/unit'
 
 class Main < Test::Unit::TestCase
@@ -19,13 +21,13 @@ class Main < Test::Unit::TestCase
 
     @route = Route.new(@station_start, @station_end)
 
-    @first_passenger_train_car = TrainCar.new('пассажирский', 100)
-    @second_passenger_train_car = TrainCar.new('пассажирский', 233)
-    @third_passenger_train_car = TrainCar.new('пассажирский', 43)
+    @first_passenger_train_car = PassengerTrainCar.new(100)
+    @second_passenger_train_car = PassengerTrainCar.new(233)
+    @third_passenger_train_car = PassengerTrainCar.new(43)
 
-    @first_cargo_train_car = TrainCar.new('грузовой', 1000)
-    @second_cargo_train_car = TrainCar.new('грузовой', 1500)
-    @third_cargo_train_car = TrainCar.new('грузовой', 25000)
+    @first_cargo_train_car = FreightTrainCar.new(1000)
+    @second_cargo_train_car = FreightTrainCar.new(1500)
+    @third_cargo_train_car = FreightTrainCar.new(25000)
   end
 
   def test_train

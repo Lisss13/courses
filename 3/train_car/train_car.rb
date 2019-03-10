@@ -23,12 +23,8 @@ class TrainCar
     false
   end
 
-  def take_place(place = 1)
-    if @type == 'пассажирский'
-      @free_place -= 1 if @free_place > 0
-    else
-      @free_place = @free_place - place if @free_place > place
-    end
+  def take_place(place)
+    @free_place = @free_place - place if @free_place > place
   end
 
   def busy_place

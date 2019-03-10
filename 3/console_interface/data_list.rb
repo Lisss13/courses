@@ -1,7 +1,7 @@
 module DataList
   def select_train
     @store[:trains].each_with_index do |train, index|
-      puts "#{index + 1}. Номер поезда: #{train.id}"
+      puts "#{index + 1}. Номер поезда: #{train.number}"
     end
   end
 
@@ -18,8 +18,8 @@ module DataList
   end
 
   def show_stations
-    puts 'Список станций:'
-    @store[:stations].each { |station| p station.name }
-    menu
+    @store[:stations].each_with_index do |station, index|
+      p "#{index}. = #{station.name}"
+    end
   end
 end

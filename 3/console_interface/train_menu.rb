@@ -1,6 +1,7 @@
 require_relative '../train/passenger_train'
 require_relative '../train/cargo_train'
-require_relative '../train_car/train_car'
+require_relative '../train_car/freight_train_car'
+require_relative '../train_car/passenger_train_car'
 require_relative 'route_menu'
 require_relative 'data_list'
 
@@ -22,6 +23,7 @@ class TrainMenu
     puts '5. Отцепить вагон'
     puts '6. Переместить поезд на следующую станцию'
     puts '7. Переместить поезд на предыдущую станцию'
+    puts '8. Вывести список вагонов у поезда'
     puts '-----------'
     puts '0. Вернуться в главное меню'
     select = gets.chomp.to_i
@@ -47,6 +49,9 @@ class TrainMenu
       when 7
         puts '-----------'
         backward_train
+      when 8
+        puts '-----------'
+        print_train_car_list
       when 0
         puts '-----------'
         @main.start
@@ -59,9 +64,10 @@ class TrainMenu
   private
 
   def create_train_car
-    puts 'Укажите тип вагона (грузовой или пассажирский)'
-    train_car_type = gets.chomp
-    @store[:train_cars] << TrainCar.new(train_car_type)
+    train_car_type = train_cat_type_menu
+    puts 'Указите колличество мест'
+    capacity = gets.chomp
+    @store[:train_cars] << train_car_type.new(capacity)
     puts 'Вагон создан!'
     menu
   rescue RuntimeError => e
@@ -69,9 +75,21 @@ class TrainMenu
     retry
   end
 
+  def train_cat_type_menu
+    puts 'Выберете тип вагона'
+    puts '1. Грузовой'
+    puts '2. Пассажирский'
+    select = gets.chomp.to_i
+    case select
+    when 1 then FreightTrainCar
+    when 2 then PassengerTrainCar
+    end
+  end
+
   def create_train
     train_type = train_type_menu
     begin
+      puts 'Напешите номер поезда'
       number = gets.chomp
       @store[:trains] << train_type.new(number)
     rescue RuntimeError => e
@@ -96,7 +114,7 @@ class TrainMenu
   def add_train_route
     puts 'Выберите поезд для назначения ему маршрута:'
     select_train
-    train = gets.chomp
+    train = gets.chomp.to_i
     selected_train = @store[:trains][train - 1]
     puts 'Выберите маршрут для назначения его поезду:'
     route = gets.chomp.to_i
@@ -109,11 +127,11 @@ class TrainMenu
   def attach_train_car
     puts 'Выберите поезд для добавления вагона'
     select_train
-    train = gets.chomp
+    train = gets.chomp.to_i
     selected_train = @store[:trains][train - 1]
     puts 'Выберите тип вагона для Вашего поезда:'
     select_train_car
-    train_car = gets.chomp
+    train_car = gets.chomp.to_i
     selected_train_car = @store[:train_cars][train_car - 1]
     selected_train.add_train_car(selected_train_car)
     puts 'Вагон добавлен!'
@@ -148,6 +166,15 @@ class TrainMenu
     selected_train = @store[:trains][train - 1]
     selected_train.go_to_previous_station
     puts "Станция: #{selected_train.current_station}"
+    menu
+  end
+
+  def print_train_car_list
+    select_train
+    train = gets.chomp.to_i
+    @store[:trains][train - 1].each_train_car do |train_car|
+      puts "#{train_car.number}, #{train_car.type}, #{train_car.free_place} #{train_car.busy_place}"
+    end
     menu
   end
 end

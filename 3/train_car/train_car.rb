@@ -2,18 +2,18 @@ require_relative '../modules/manufacturer'
 
 # Train car for Train
 class TrainCar
-  attr_reader :type, :number
+  attr_reader :type, :capacity
   include CompanyManufacturer
 
   TRAIN_CAR_ERROR = "Вагон не может быть нулевым"
 
   ##
   # @param [String] type type of train car
-  # @param [Number] number number of free seats for passengers or places for goods
-  def initialize(type, number)
+  # @param [Number] capacity number of free seats for passengers or places for goods
+  def initialize(type, capacity)
     @type = type
-    @number = number
-    @free_place = number
+    @capacity = capacity
+    @free_place = capacity
     validate!
   end
 
@@ -28,7 +28,7 @@ class TrainCar
   end
 
   def busy_place
-    @number - @free_place
+    @capacity - @free_place
   end
 
   def free_place

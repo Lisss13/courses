@@ -24,6 +24,7 @@ class TrainMenu
     puts '6. Переместить поезд на следующую станцию'
     puts '7. Переместить поезд на предыдущую станцию'
     puts '8. Вывести список вагонов у поезда'
+    puts '9. Занять место в вагоне'
     puts '-----------'
     puts '0. Вернуться в главное меню'
     select = gets.chomp.to_i
@@ -52,6 +53,9 @@ class TrainMenu
       when 8
         puts '-----------'
         print_train_car_list
+      when 9
+        puts '-----------'
+        take_place_in_train_car
       when 0
         puts '-----------'
         @main.start
@@ -174,6 +178,20 @@ class TrainMenu
     train = gets.chomp.to_i
     @store[:trains][train - 1].each_train_car do |train_car|
       puts "#{train_car.number}, #{train_car.type}, #{train_car.free_place} #{train_car.busy_place}"
+    end
+    menu
+  end
+
+  def take_place_in_train_car
+    select_train_car
+    train_car_index = gets.chomp.to_i
+    train_car = @store[:train_cars][train_car_index - 1]
+    if train_car.class == PassengerTrainCar
+      train_car.take_place
+    else
+      puts 'Какое количество места?'
+      capacity = gets.chomp.to_i
+      train_car.take_place(capacity)
     end
     menu
   end

@@ -24,7 +24,7 @@ class TrainCar
   end
 
   def take_place(place)
-    @free_place = @free_place - place if @free_place > place
+    @free_place -= place if @free_place > place
   end
 
   def busy_place

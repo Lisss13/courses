@@ -29,39 +29,39 @@ class TrainMenu
     puts '0. Вернуться в главное меню'
     select = gets.chomp.to_i
     case select
-      when 1
-        puts '-----------'
-        create_train_car
-      when 2
-        puts '-----------'
-        create_train
-      when 3
-        puts '-----------'
-        add_train_route
-      when 4
-        puts '-----------'
-        attach_train_car
-      when 5
-        puts '-----------'
-        remove_train_car
-      when 6
-        puts '-----------'
-        forward_train
-      when 7
-        puts '-----------'
-        backward_train
-      when 8
-        puts '-----------'
-        print_train_car_list
-      when 9
-        puts '-----------'
-        take_place_in_train_car
-      when 0
-        puts '-----------'
-        @main.start
-      else
-        puts 'Ошибка ввода, выберите доступный вариант'
-        menu
+    when 1
+      puts '-----------'
+      create_train_car
+    when 2
+      puts '-----------'
+      create_train
+    when 3
+      puts '-----------'
+      add_train_route
+    when 4
+      puts '-----------'
+      attach_train_car
+    when 5
+      puts '-----------'
+      remove_train_car
+    when 6
+      puts '-----------'
+      forward_train
+    when 7
+      puts '-----------'
+      backward_train
+    when 8
+      puts '-----------'
+      print_train_car_list
+    when 9
+      puts '-----------'
+      take_place_in_train_car
+    when 0
+      puts '-----------'
+      @main.start
+    else
+      puts 'Ошибка ввода, выберите доступный вариант'
+      menu
     end
   end
 
@@ -177,7 +177,8 @@ class TrainMenu
     select_train
     train = gets.chomp.to_i
     @store[:trains][train - 1].each_train_car do |train_car|
-      puts "#{train_car.number}, #{train_car.type}, #{train_car.free_place} #{train_car.busy_place}"
+      puts "#{train_car.number}, #{train_car.type}, " \
+           "#{train_car.free_place} #{train_car.busy_place}"
     end
     menu
   end

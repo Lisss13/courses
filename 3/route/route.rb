@@ -1,9 +1,10 @@
 require_relative '../modules/instance_counter'
 
+# class for train routes
 class Route
   attr_reader :stations
   include InstanceCounter
-  INVALID_STATION = "Маршрут должен состоять из объектов станции"
+  INVALID_STATION = 'Маршрут должен состоять из объектов станции'.freeze
 
   ##
   # @param [Station] starting_point start station
@@ -43,7 +44,7 @@ class Route
 
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 

@@ -1,17 +1,21 @@
 require_relative '../modules/instance_counter'
 
+# station for train
 class Station
   attr_reader :name, :trains
   include InstanceCounter
 
-  NAME_EMPTY = "Название станции не может быть пустой"
-  NAME_LENGTH = "Название станции должно содержать не менее 3 букв"
+  NAME_EMPTY = 'Название станции не может быть пустой'.freeze
+  NAME_LENGTH = 'Название станции должно содержать не менее 3 букв'.freeze
 
   @@all_station = []
 
+  ##
+  # get all stations created
   def self.all
     @@all_station
   end
+
   ##
   # @param [String] name name of station
   def initialize(name)
@@ -56,15 +60,18 @@ class Station
   # Validation of parameters
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 
   protected
 
+  ##
+  # check for input parameters
   def validate!
     raise NAME_EMPTY if name.nil?
     raise NAME_LENGTH if name.length < 3
+
     true
   end
 end

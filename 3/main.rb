@@ -8,7 +8,7 @@ class Main
       routes: [],
       stations: [],
       train_cars: [],
-      trains: [],
+      trains: []
     }
     @state_menu = StationMenu.new(self, @store)
     @route_menu = RouteMenu.new(self, @store)
@@ -26,23 +26,24 @@ class Main
   end
 
   private
-    def select
-      select = gets.chomp.to_i
-      case select
-      when 1
-        @state_menu.menu
-      when 2
-        @route_menu.menu
-      when 3
-        @train_menu.menu
-      when 0
-        abort('Выход!')
-      else
-        puts 'Ошибка ввода, выберите доступный вариант'
-        puts '-----------'
-        main
-      end
+
+  def select
+    select = gets.chomp.to_i
+    case select
+    when 1
+      @state_menu.menu
+    when 2
+      @route_menu.menu
+    when 3
+      @train_menu.menu
+    when 0
+      abort('Выход!')
+    else
+      puts 'Ошибка ввода, выберите доступный вариант'
+      puts '-----------'
+      main
     end
+  end
 end
 
 main = Main.new

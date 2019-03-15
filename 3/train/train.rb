@@ -7,16 +7,20 @@ class Train
   include CompanyManufacturer
   include InstanceCounter
 
-  NUMBER_FORMAT = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i
-  ID_EMPTY = "ID поезда не может быть пустым"
-  TYPE_EMPTY = "Тип поезда не может быть нулевым"
-  WRONG_FORMAT =  "Неправильный формат идентификатора поезда"
-
+  NUMBER_FORMAT = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i.freeze
+  ID_EMPTY = 'ID поезда не может быть пустым'.freeze
+  TYPE_EMPTY = 'Тип поезда не может быть нулевым'.freeze
+  WRONG_FORMAT = 'Неправильный формат идентификатора поезда'.freeze
 
   @@all_trains = []
+
+  ##
+  # search by created trains
+  # @param [Number] number train number
   def self.find(number)
     @@all_trains.find { |train| train.number == number }
   end
+
   ##
   # @param [Number] number number or id of train
   # @param [String] type type of train
@@ -53,14 +57,14 @@ class Train
   # Add train car to train
   # @param [TrainCar] train_car object of TrainCar
   def add_train_car(train_car)
-    @train_cars.push(train_car) if @speed == 0
+    @train_cars.push(train_car) if @speed.zero?
   end
 
   ##
   # Remove train car
   # @param [TrainCar] train_car object of TrainCar
   def remove_train_car(train_car)
-    @train_cars.delete(train_car) if @speed == 0 && @train_cars.length >= 0
+    @train_cars.delete(train_car) if @speed.zero? && @train_cars.length >= 0
   end
 
   ##
@@ -92,7 +96,7 @@ class Train
   # Validation of parameters
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 
@@ -105,31 +109,31 @@ class Train
 
   protected
 
+  ##
+  # check for input parameters
   def validate!
     raise ID_EMPTY if number.nil?
     raise WRONG_FORMAT if number !~ NUMBER_FORMAT
     raise TYPE_EMPTY if type.nil?
+
     true
   end
 
   # auxiliary methods for go_to_next_station and go_to_previous_station
   private
+
   ##
   # Get next station
   def next_station
     station_index = @route.stations.index(@current_station)
     stations = @route.stations
-    unless station_index == stations.size
-      stations[station_index + 1]
-    end
+    stations[station_index + 1] unless station_index == stations.size
   end
 
   ##
   # Get previous station
   def previous_station
     station_index = @route.stations.index(@current_station)
-    unless station_index == 0
-      @current_station[station_index - 1]
-    end
+    @current_station[station_index - 1] unless station_index.zero?
   end
 end

@@ -1,10 +1,13 @@
 require_relative '../modules/instance_counter'
+require_relative '../modules/acessors'
+require_relative '../modules/manufacturer'
 
 # class for train routes
 class Route
   attr_reader :stations
   include InstanceCounter
-  INVALID_STATION = 'Маршрут должен состоять из объектов станции'.freeze
+  include Accessors
+  include Validation
 
   ##
   # @param [Station] starting_point start station
@@ -12,6 +15,7 @@ class Route
   def initialize(starting_point, final_point)
     @stations = [starting_point, final_point]
     register_instance
+    validate!
   end
 
   ##
@@ -40,17 +44,5 @@ class Route
   # Print all station
   def print_station
     @stations.each { |station| p station.name }
-  end
-
-  def valid?
-    validate!
-  rescue StandardError
-    false
-  end
-
-  protected
-
-  def validate!
-    raise INVALID_STATION unless stations.first.is_a?(Station) && stations.last.is_a?(Station)
   end
 end

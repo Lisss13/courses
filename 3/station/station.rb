@@ -1,12 +1,13 @@
 require_relative '../modules/instance_counter'
+require_relative '../modules/acessors'
+require_relative '../modules/manufacturer'
 
 # station for train
 class Station
   attr_reader :name, :trains
   include InstanceCounter
-
-  NAME_EMPTY = 'Название станции не может быть пустой'.freeze
-  NAME_LENGTH = 'Название станции должно содержать не менее 3 букв'.freeze
+  include Accessors
+  include Validation
 
   @@all_station = []
 
@@ -54,24 +55,5 @@ class Station
   # @param [Proc]
   def each_train
     @trains.each { |train| yield train }
-  end
-
-  ##
-  # Validation of parameters
-  def valid?
-    validate!
-  rescue StandardError
-    false
-  end
-
-  protected
-
-  ##
-  # check for input parameters
-  def validate!
-    raise NAME_EMPTY if name.nil?
-    raise NAME_LENGTH if name.length < 3
-
-    true
   end
 end

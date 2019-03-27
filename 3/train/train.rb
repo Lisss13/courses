@@ -1,16 +1,15 @@
 require_relative '../modules/manufacturer'
 require_relative '../modules/instance_counter'
+require_relative '../modules/acessors'
+require_relative '../modules/manufacturer'
 
 # Base class for Trains
 class Train
   attr_reader :route, :type, :current_station, :speed, :train_cars, :number
   include CompanyManufacturer
   include InstanceCounter
-
-  NUMBER_FORMAT = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i.freeze
-  ID_EMPTY = 'ID поезда не может быть пустым'.freeze
-  TYPE_EMPTY = 'Тип поезда не может быть нулевым'.freeze
-  WRONG_FORMAT = 'Неправильный формат идентификатора поезда'.freeze
+  include Accessors
+  include Validation
 
   @@all_trains = []
 
@@ -93,14 +92,6 @@ class Train
   end
 
   ##
-  # Validation of parameters
-  def valid?
-    validate!
-  rescue StandardError
-    false
-  end
-
-  ##
   # Train car iteration at the station
   # @param [Proc]
   def each_train_car
@@ -108,16 +99,6 @@ class Train
   end
 
   protected
-
-  ##
-  # check for input parameters
-  def validate!
-    raise ID_EMPTY if number.nil?
-    raise WRONG_FORMAT if number !~ NUMBER_FORMAT
-    raise TYPE_EMPTY if type.nil?
-
-    true
-  end
 
   # auxiliary methods for go_to_next_station and go_to_previous_station
   private

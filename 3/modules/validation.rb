@@ -5,11 +5,12 @@ module Validation
   end
 
   module ClassMethods
-    attr_reader :rules
+    def rules
+      @rules ||= []
+    end
 
     def validate(var_name, validation_type, option = nil)
-      @rules ||= []
-      @rules << { var_name: var_name,
+      rules << { var_name: var_name,
                   validation_type: validation_type.to_sym,
                   option: option }
     end
@@ -24,10 +25,9 @@ module Validation
 
     def validate!
       self.class.rules.each do |rule|
-        var_value = instance_variable_get("@#{rule.[:var_properties][:var_name]}")
+        var_value = instance_variable_get("@#{rule[:var_name]}")
         send rule[:validation_type], var_value, rule[:option]
       end
-      true
     end
 
     def presence(var_value, _option)
@@ -36,11 +36,11 @@ module Validation
       end
     end
 
-    def type(var_value, option)
+    def validate_type(var_value, option)
       raise "Parameter has wrong type" unless var_value.is_a?(option)
     end
 
-    def format(var_value, option)
+    def validate_format(var_value, option)
       raise "Parameter has wrong format" if var_value !~ option
     end
   end

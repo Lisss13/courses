@@ -1,12 +1,12 @@
 require_relative '../modules/instance_counter'
-require_relative '../modules/acessors'
+require_relative '../modules/accessors'
 require_relative '../modules/manufacturer'
 
 # station for train
 class Station
   attr_reader :name, :trains
   include InstanceCounter
-  include Accessors
+  extend Accessors
   include Validation
 
   @@all_station = []

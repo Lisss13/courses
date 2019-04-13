@@ -1,6 +1,6 @@
 require_relative '../modules/manufacturer'
 require_relative '../modules/instance_counter'
-require_relative '../modules/acessors'
+require_relative '../modules/accessors'
 require_relative '../modules/manufacturer'
 
 # Base class for Trains
@@ -8,8 +8,11 @@ class Train
   attr_reader :route, :type, :current_station, :speed, :train_cars, :number
   include CompanyManufacturer
   include InstanceCounter
-  include Accessors
+  extend Accessors
   include Validation
+
+  validate :type, :type, String
+  validate :number, :format,/^([a-z]|\d){3}[-]?([a-z]|\d){2}$/i
 
   @@all_trains = []
 

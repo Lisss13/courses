@@ -1,12 +1,12 @@
 require_relative '../modules/manufacturer'
-require_relative '../modules/acessors'
+require_relative '../modules/accessors'
 require_relative '../modules/validation'
 
 # Train car for Train
 class TrainCar
   attr_reader :type, :capacity, :free_place
   include CompanyManufacturer
-  include Accessors
+  extend Accessors
   include Validation
 
   ##

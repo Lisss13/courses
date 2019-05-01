@@ -25,12 +25,13 @@ module Validation
 
     def validate!
       self.class.rules.each do |rule|
-        var_value = instance_variable_get("@#{rule[:var_name]}")
-        send rule[:validation_type], var_value, rule[:option]
+        method_name = "validate_#{rule[:validation_type]}"
+        var_value = instance_variable_get("@#{rule[:var_name]}".to_sym)
+        send(method_name, var_value, rule[:option])
       end
     end
 
-    def presence(var_value, _option)
+    def validate_presence(var_value, _option)
       if var_value.nil? || var_value.empty?
         raise "Parameter can`t be nil or empty(for String class)"
       end

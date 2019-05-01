@@ -150,20 +150,23 @@ class Main < Test::Unit::TestCase
   end
 
   def test_error
-    exception = assert_raise(RuntimeError) { PassengerTrain.new('ID поезда не может быть пустым') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { PassengerTrain.new('fff-4') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { CargoTrain.new('ID поезда не может быть пустым') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { CargoTrain.new('fff-4') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { Train.new('ID поезда не может быть пустым', 'sdf') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { Train.new('fff-4', 'sdf') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
-    exception = assert_raise(RuntimeError) { Train.new('fff---43', 'sdf') }
-    assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { PassengerTrain.new('ID поезда не может быть пустым') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { PassengerTrain.new('fff-4') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { CargoTrain.new('ID поезда не может быть пустым') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { CargoTrain.new('fff-4') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { Train.new('ID поезда не может быть пустым', 'sdf') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { Train.new('fff-4', 'sdf') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    # exception = assert_raise(RuntimeError) { Train.new('fff---43', 'sdf') }
+    # assert_equal('Неправильный формат идентификатора поезда', exception.message)
+    assert_raise ArgumentError do
+      Train.new('dslkf')
+    end
   end
 
   def test_train_car
